@@ -1,0 +1,23 @@
+---
+- name: Oracle PMON Check
+  hosts: oracle
+  gather_facts: no
+
+  tasks:
+
+    - name: Check PMON process
+      shell: ps -ef | grep pmon | grep -v grep || true
+      register: pmon_output
+
+    - name: Display PMON output
+      debug:
+        var: pmon_output.stdout_lines
+
+    - name: Display Memory
+      shell: free -h
+      register: server_mem
+
+    - name: Show Memory
+      debug:
+        var: server_mem.stdout_lines
+
